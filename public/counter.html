@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>CodingPhase Starter Kit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+  <style>
+    *{
+      box-sizing: border-box;
+    }
+    body{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .counter{
+      display: flex;
+      flex-direction: column;
+      width: 500px;
+      border: 2px solid #000;
+    }
+    .counter #digitalNumber{
+      width: 100%;
+      display: block;
+      font-size: 4rem;
+      text-align: center;
+    }
+    .counter .buttons{
+      width: 100%;
+      display: flex;
+    }
+    .counter .buttons .button{
+      width: 50%;
+      background: black;
+      color: white;
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+      transition: background .4s ease-in-out;
+      cursor: pointer;
+         }
+    .counter .buttons .button:hover{
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="counter">
+    <div id="digitalNumber">0</div>
+    <div class="buttons">
+      <div id="increment" class="button">+</div>
+      <div id="decrement" class="button">-</div>
+    </div>
+  </div>
+  <script>
+    const { createStore, combineReducers} = Redux
+    // Action Creators
+    const CLICKED_INCREMENT = () => {
+      return {
+        type: 'CLICKED_INCREMENT',
+        payload: 'Plus'
+      }
+    }
+
+    const CLICKED_DECREMENT = () => {
+        return {
+          type: 'CLICKED_DECREMENT',
+          payload: 'Minus'
+        }
+      }
+    // Reducers
+    let newState
+    const counterReducer = (state = 0, action) => {
+      switch (action.type) {
+        case 'CLICKED_INCREMENT':
+          newState = state + 1
+          return newState
+          break;
+        case 'CLICKED_DECREMENT':
+          newState = state - 1
+          return newState
+          break;
+
+        default:
+          return state
+          break;
+      }
+    }
+
+    const allReducers = combineReducers({
+      counterReducer
+    })
+    const store = createStore(allReducers)
+    
+    const decBtn = document.getElementById("decrement")
+    const incBtn = document.getElementById("increment")
+    decBtn.addEventListener('click', () => {
+      store.dispatch(CLICKED_DECREMENT())
+    })
+    incBtn.addEventListener('click', () => {
+        store.dispatch(CLICKED_INCREMENT())
+        
+    })
+    const render = () => {
+      const appState = store.getState().counterReducer
+      console.log('===============Current State')
+      console.log(appState)
+      document.getElementById('digitalNumber').innerHTML = appState
+
+    }
+    render()
+    store.subscribe(render)
+  </script>
+</body>
+
+</html>

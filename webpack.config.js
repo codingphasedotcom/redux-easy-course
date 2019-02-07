@@ -16,8 +16,7 @@ compress.unused = true;
 module.exports = env => {
 	return {
 		entry: {
-			FirstComp: './assets/js/components/FirstComp.js',
-			main: './assets/js/main.js'
+			BooksApp: './assets/js/index.js'
 		},
 		output: {
 			path: path.resolve(__dirname, 'public/js/dist'),

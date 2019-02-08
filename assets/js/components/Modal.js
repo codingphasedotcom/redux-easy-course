@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { closingInfoBook, addingBook } from '../actions/allActions.js';
 
-export default class Modal extends Component {
+class Modal extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -12,9 +13,12 @@ export default class Modal extends Component {
 	async test() {}
 	render() {
 		return (
-			<section id="modal">
+			<section
+				id="modal"
+				className={this.props.globalState.popupOpen == true ? 'active' : ''}
+			>
 				<div className="modal-container">
-					<div className="close-modal">
+					<div className="close-modal" onClick={this.props.closingInfoBook}>
 						<i className="fas fa-times" />
 					</div>
 					<div className="modal-grid">
@@ -22,30 +26,40 @@ export default class Modal extends Component {
 							<div
 								className="cover"
 								style={{
-									backgroundImage: `url('https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/X-Men_v1_141.jpg/220px-X-Men_v1_141.jpg')`
+									backgroundImage: `url('${
+										this.props.globalState.openInfoBook.coverURL == undefined
+											? ''
+											: this.props.globalState.openInfoBook.coverURL
+									}')`
 								}}
 							/>
 						</div>
 						<div className="info">
-							<h2>Title</h2>
+							<h2>{this.props.globalState.openInfoBook.title}</h2>
 							<div className="info-line">
 								<span className="bold">Author:</span>
-								Chris Claremont
+								{this.props.globalState.openInfoBook.author}
 							</div>
 							<div className="info-line">
 								<span className="bold">Category:</span>
-								Graphic Novel
+								{this.props.globalState.openInfoBook.category}
 							</div>
 							<div className="info-line">
 								<span className="bold">Published:</span>
-								1981
+								{this.props.globalState.openInfoBook.published}
 							</div>
 							<p className="review">
-								"Days of Future Past" is a storyline in the Marvel Comics comic
-								book The Uncanny X-Men issues #141–142, published in 1981. It
-								deals with a dystopian future in which mutants are incarcerated
-								in internment camps.
+								{this.props.globalState.openInfoBook.review}
 							</p>
+							<div
+								className="add-btn"
+								onClick={this.props.addingBook.bind(
+									null,
+									this.props.globalState.openInfoBook.title
+								)}
+							>
+								Add To My List
+							</div>
 						</div>
 					</div>
 				</div>
@@ -53,3 +67,15 @@ export default class Modal extends Component {
 		);
 	}
 }
+
+const mapStateToProps = state => {
+	console.log(state);
+	return state;
+};
+export default connect(
+	mapStateToProps,
+	{
+		closingInfoBook,
+		addingBook
+	}
+)(Modal);

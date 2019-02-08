@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { openingInfoBook } from '../actions/allActions.js';
 
-export default class AllBooks extends Component {
+class AllBooks extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -9,19 +10,32 @@ export default class AllBooks extends Component {
 		};
 	}
 	clickedBtn = () => {};
-	async test() {}
-	render() {
-		return (
-			<section className="all-books">
-				<div className="book-container">
+	showAllBooks = () => {
+		return this.props.booksData.map(book => {
+			return (
+				<div key={book.title} className="book-container">
 					<div
+						onClick={this.props.openingInfoBook.bind(null, book)}
 						className="book"
-						style={{
-							backgroundImage: `url('https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/X-Men_v1_141.jpg/220px-X-Men_v1_141.jpg')`
-						}}
+						style={{ backgroundImage: `url('${book.coverURL}')` }}
 					/>
 				</div>
-			</section>
-		);
+			);
+		});
+	};
+	async test() {}
+	render() {
+		console.log(this.props);
+		return <section className="all-books">{this.showAllBooks()}</section>;
 	}
 }
+const mapStateToProps = state => {
+	console.log(state);
+	return state;
+};
+export default connect(
+	mapStateToProps,
+	{
+		openingInfoBook
+	}
+)(AllBooks);

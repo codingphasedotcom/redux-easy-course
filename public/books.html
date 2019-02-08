@@ -18,6 +18,9 @@
     #approot{
 
     }
+    #approot.popupOpen{
+      filter: blur(75px)
+    }
     .container{
       max-width: 1200px;
       margin: 0 auto;
@@ -150,6 +153,9 @@
     }
     #modal .modal-grid .images .cover{
       height: 300px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
     }
     #modal .modal-grid .info h2{
       font-size: 2rem;
@@ -169,6 +175,7 @@
       font-size: 1.1rem;
       font-weight: 400;
       line-height: 1.4;
+      margin-bottom: 1.5rem;
     }
     #modal .modal-container .close-modal{
       position: absolute;
@@ -178,6 +185,13 @@
       color: white;
       background: red;
       cursor: pointer;
+    }
+    #modal .modal-container .add-btn{
+      padding: 20px 40px;
+      color: white;
+      background: purple;
+      cursor: pointer;
+      display: inline-block;
     }
   </style>
 </head>
